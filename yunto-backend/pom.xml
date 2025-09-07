@@ -29,6 +29,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.13</version>
         </dependency>
+        <!--https://baomidou.com/getting-started/install/#maven-bom-->
+        <!-- jdk 8+ 引入可选模块 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser-4.9</artifactId>
+        </dependency>
         <!--https://doc.hutool.cn/pages/index/-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -64,6 +70,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--https://baomidou.com/getting-started/install/#maven-bom-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>3.5.9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
