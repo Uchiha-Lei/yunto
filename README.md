@@ -59,6 +59,3 @@ npm run dev
 - RESTful API设计
 - 现代化的前端界面
 - 完善的项目配置
-
-## License
-MIT
