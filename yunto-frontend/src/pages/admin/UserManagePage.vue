@@ -21,7 +21,7 @@
       :pagination="pagination"
       @change="doTableChange"
     >
-    <template #bodyCell="{ column, record }">
+      <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'userAvatar'">
           <a-image :src="record.userAvatar" :width="60" />
         </template>
@@ -102,10 +102,10 @@ const pagination = computed(() => {
     pageSize: searchParams.pageSize ?? 10,
     total: total.value,
     showSizeChanger: true,
+    responsive: true,
     showTotal: (total) => `共 ${total} 条`,
   }
 })
-
 
 // 表格变化处理
 const doTableChange = (page: any) => {
@@ -113,7 +113,6 @@ const doTableChange = (page: any) => {
   searchParams.pageSize = page.pageSize
   fetchData()
 }
-
 
 // 页面加载时获取数据
 onMounted(() => {
