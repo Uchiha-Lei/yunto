@@ -54,7 +54,6 @@ import { MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStroe.ts'
 import { userLogoutUsingPost } from '@/api/userController.ts'
-import checkAccess from '@/access/checkAccess.ts'
 
 const loginUserStore = useLoginUserStore()
 loginUserStore.fetchLoginUser()
@@ -89,16 +88,16 @@ const doMenuClick = ({ key }) => {
   })
 }
 
-// 过滤菜单项
-const items = menus.filter((menu) => {
-  // todo 需要自己实现 menu 到路由 item 的转化
-  const item = menuToRouteItem(menu);
-  if (item.meta?.hideInMenu) {
-    return false;
-  }
-  // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
-  return checkAccess(loginUserStore.loginUser, item.meta?.access as string);
-});
+// // 过滤菜单项
+// const items = menus.filter((menu) => {
+//   // todo 需要自己实现 menu 到路由 item 的转化
+//   const item = menuToRouteItem(menu);
+//   if (item.meta?.hideInMenu) {
+//     return false;
+//   }
+//   // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
+//   return checkAccess(loginUserStore.loginUser, item.meta?.access as string);
+// });
 
 
 // 退出登录
