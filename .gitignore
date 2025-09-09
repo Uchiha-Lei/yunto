@@ -1,0 +1,96 @@
+# ==================== 通用规则 ====================
+# 日志文件
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 操作系统生成的文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 编辑器目录和文件
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+*.ipr
+*.iws
+
+# 编译生成物
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ==================== 后端特定规则 ====================
+# 应用配置文件 (后端)
+yunto-backend/application-local.yml
+yunto-backend/application-prod.yml
+
+# Maven 相关
+yunto-backend/target/
+yunto-backend/pom.xml.tag
+yunto-backend/pom.xml.releaseBackup
+yunto-backend/pom.xml.versionsBackup
+yunto-backend/pom.xml.next
+yunto-backend/release.properties
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Spring/STS 相关
+yunto-backend/.apt_generated
+yunto-backend/.classpath
+yunto-backend/.factorypath
+yunto-backend/.project
+yunto-backend/.settings
+yunto-backend/.springBeans
+yunto-backend/.sts4-cache
+
+# HELP 文件
+yunto-backend/HELP.md
+
+# ==================== 前端特定规则 ====================
+# 依赖目录
+yunto-frontend/node_modules/
+
+# 构建输出
+yunto-frontend/dist/
+yunto-frontend/dist-ssr/
+yunto-frontend/build/
+
+# 测试覆盖率
+yunto-frontend/coverage/
+yunto-frontend/.nyc_output
+
+# Cypress 测试相关
+yunto-frontend/cypress/videos/
+yunto-frontend/cypress/screenshots/
+
+# 本地环境文件
+yunto-frontend/*.local
+
+# ==================== NetBeans 相关 ====================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
