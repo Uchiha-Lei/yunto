@@ -41,3 +41,12 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.xulei.yuntobackend.controller
+
+# 对象存储配置（需要从腾讯云获取）
+cos:
+  client:
+    host: https://leiyunto-1322740148.cos.ap-beijing.myqcloud.com
+    secretId: AKIDwkPr593nKe2QbbT9fz974rVzFIBtaBD8
+    secretKey: rZ7as0vqcBXN2UjpRuBG8pMgrtlT0Mgt
+    region: ap-beijing
+    bucket: leiyunto-1322740148
