@@ -48,7 +48,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {  h, ref } from 'vue'
+import { h, ref } from 'vue'
 import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import { MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -67,10 +67,20 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
+    key: '/add_picture',
+    label: '创建图片',
+    title: '创建图片',
+  },
+  {
     key: '/admin/userManage',
     label: '用户管理',
     title: '用户管理',
   },
+  {
+    key: '/admin/pictureManage',
+    label: '图片管理',
+    title: '图片管理',
+  }
 ])
 
 const router = useRouter()
@@ -98,7 +108,6 @@ const doMenuClick = ({ key }) => {
 //   // 根据权限过滤菜单，有权限则返回 true，则保留该菜单
 //   return checkAccess(loginUserStore.loginUser, item.meta?.access as string);
 // });
-
 
 // 退出登录
 const doLogout = async () => {
