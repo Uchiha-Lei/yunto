@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xulei.yuntobackend.model.VO.PictureVO;
 import com.xulei.yuntobackend.model.dto.picture.PictureQueryRequest;
+import com.xulei.yuntobackend.model.dto.picture.PictureReviewRequest;
+import com.xulei.yuntobackend.model.dto.picture.PictureUploadByBatchRequest;
 import com.xulei.yuntobackend.model.dto.picture.PictureUploadRequest;
 import com.xulei.yuntobackend.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -22,13 +24,21 @@ public interface PictureService extends IService<Picture> {
     /**
      * 上传图片
      *
-     * @param multipartFile        文件
+     * @param inputSource          文件
      * @param pictureUploadRequest 上传请求体
      * @param loginUser            登录的用户
      * @return
      */
-    PictureVO uploadPicture(MultipartFile multipartFile, PictureUploadRequest pictureUploadRequest, User loginUser);
+    PictureVO uploadPicture(Object inputSource, PictureUploadRequest pictureUploadRequest, User loginUser);
 
+    /**
+     * 批量抓取和创建图片
+     *
+     * @param pictureUploadByBatchRequest
+     * @param loginUser
+     * @return 成功创建的图片数
+     */
+    Integer uploadPictureByBatch(PictureUploadByBatchRequest pictureUploadByBatchRequest, User loginUser);
 
     /**
      * 分页查询图片
@@ -58,4 +68,22 @@ public interface PictureService extends IService<Picture> {
      * @param picture
      */
     void validPicture(Picture picture);
+
+    /**
+     * 图片审核
+     *
+     * @param pictureReviewRequest
+     * @param loginUser
+     */
+    void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+
+    /**
+     * 设置审核状态
+     *
+     * @param picture
+     * @param loginUser
+     */
+    void fillReviewParams(Picture picture, User loginUser);
+
+
 }
