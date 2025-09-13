@@ -8,6 +8,12 @@ import AddPicturePage from '@/pages/AddPicturePage.vue'
 import PictureManagePage from '@/pages/admin/PictureManagePage.vue'
 import PictureDetailPage from '@/pages/picture/PictureDetailPage.vue'
 import AddPictureBatchPage from '@/pages/AddPictureBatchPage.vue'
+import { useLoginUserStore } from '@/stores/useLoginUserStroe.ts'
+import { h } from 'vue'
+import { HomeOutlined } from '@ant-design/icons-vue'
+import NoAuthPage from '@/pages/result/NoAuthPage.vue'
+import NoFound from '@/pages/result/NoFound.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +22,9 @@ const router = createRouter({
       path: '/',
       name: '主页',
       component: HomePage,
+      meta: {
+        icon: () => h(HomeOutlined),
+      },
     },
     {
       path: '/add_picture',
@@ -47,6 +56,9 @@ const router = createRouter({
           component: UserRegisterPage,
         },
       ],
+      meta: {
+        hideInMenu: true,
+      },
     },
     {
       path: '/admin',
@@ -66,7 +78,25 @@ const router = createRouter({
         access: ACCESS_ENUM.ADMIN,
       },
     },
+    {
+      path: '/noAuth',
+      name: '无权限',
+      component: NoAuthPage,
+    },
+    {
+      path: '/notFound',
+      name: '未找到',
+      component: NoFound,
+    },
   ],
+})
+
+router.beforeEach((to) => {
+  // ✅ This will work because the router starts its navigation after
+  // the router is installed and pinia will be installed too
+  const loginUserStore = useLoginUserStore()
+
+  if (to.meta.requiresAuth && !loginUserStore.fetchLoginUser) return '/user/login'
 })
 
 export default router

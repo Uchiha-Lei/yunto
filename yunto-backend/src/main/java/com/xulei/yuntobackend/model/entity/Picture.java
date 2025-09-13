@@ -3,13 +3,15 @@ package com.xulei.yuntobackend.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
+
 import lombok.Data;
 
 /**
  * 图片
+ *
  * @TableName picture
  */
-@TableName(value ="picture")
+@TableName(value = "picture")
 @Data
 public class Picture {
     /**
@@ -22,6 +24,11 @@ public class Picture {
      * 图片 url
      */
     private String url;
+
+    /**
+     * 缩略图 url
+     */
+    private String thumbnailUrl;
 
     /**
      * 图片名称

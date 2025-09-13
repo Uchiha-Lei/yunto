@@ -42,7 +42,7 @@ Thumbs.db
 
 # ==================== 后端特定规则 ====================
 # 应用配置文件 (后端)
-yunto-backend/application-local.yml
+yunto-backend/src/main/resources/application-local.yml
 yunto-backend/application-prod.yml
 
 # Maven 相关
