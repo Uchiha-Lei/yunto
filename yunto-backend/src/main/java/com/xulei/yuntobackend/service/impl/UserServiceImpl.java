@@ -89,7 +89,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 用户登录
      *
-     * @param userLoginRequest 用户登录请求
+     * @param userAccount  用户名
+     * @param userPassword 密码
      * @return 脱敏后的用户信息
      */
     @Override

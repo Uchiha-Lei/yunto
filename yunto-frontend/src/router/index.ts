@@ -13,7 +13,10 @@ import { h } from 'vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
 import NoAuthPage from '@/pages/result/NoAuthPage.vue'
 import NoFound from '@/pages/result/NoFound.vue'
-
+import SpaceManage from '@/pages/admin/SpaceManage.vue'
+import AddSpacePage from '@/pages/AddSpacePage.vue'
+import MySpacePage from '@/pages/space/MySpacePage.vue'
+import SpaceDetailPage from '@/pages/space/SpaceDetailPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,11 +33,18 @@ const router = createRouter({
       path: '/add_picture',
       name: '创建图片',
       component: AddPicturePage,
+      props: true,
     },
     {
       path: '/add_picture/batch',
       name: '批量创建图片',
       component: AddPictureBatchPage,
+      props: true,
+    },
+    {
+      path: '/add_space',
+      name: '创建空间',
+      component: AddSpacePage,
     },
     {
       path: '/picture/:id',
@@ -73,9 +83,33 @@ const router = createRouter({
           name: '图片管理',
           component: PictureManagePage,
         },
+        {
+          path: 'spaceManage',
+          name: '空间管理',
+          component: SpaceManage,
+        },
       ],
       meta: {
         access: ACCESS_ENUM.ADMIN,
+      },
+    },
+    {
+      path: '/space',
+      children: [
+        {
+          path: 'my_space',
+          name: '我的空间',
+          component: MySpacePage,
+        },
+        {
+          path: ':id',
+          name: '空间详情',
+          component: SpaceDetailPage,
+          props: true,
+        },
+      ],
+      meta: {
+        hideInMenu: true,
       },
     },
     {

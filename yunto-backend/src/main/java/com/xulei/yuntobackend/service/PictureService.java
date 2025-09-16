@@ -3,10 +3,7 @@ package com.xulei.yuntobackend.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xulei.yuntobackend.model.VO.PictureVO;
-import com.xulei.yuntobackend.model.dto.picture.PictureQueryRequest;
-import com.xulei.yuntobackend.model.dto.picture.PictureReviewRequest;
-import com.xulei.yuntobackend.model.dto.picture.PictureUploadByBatchRequest;
-import com.xulei.yuntobackend.model.dto.picture.PictureUploadRequest;
+import com.xulei.yuntobackend.model.dto.picture.*;
 import com.xulei.yuntobackend.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xulei.yuntobackend.model.entity.User;
@@ -39,6 +36,10 @@ public interface PictureService extends IService<Picture> {
      * @return 成功创建的图片数
      */
     Integer uploadPictureByBatch(PictureUploadByBatchRequest pictureUploadByBatchRequest, User loginUser);
+
+    void deletePicture(long pictureId, User loginUser);
+
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
 
     /**
      * 分页查询图片
@@ -86,4 +87,6 @@ public interface PictureService extends IService<Picture> {
     void fillReviewParams(Picture picture, User loginUser);
 
     void clearPictureFile(Picture oldPicture);
+
+    void checkPictureAuth(User loginUser, Picture picture);
 }

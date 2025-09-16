@@ -124,6 +124,7 @@ import {
   PIC_REVIEW_STATUS_MAP,
   PIC_REVIEW_STATUS_OPTIONS,
 } from '../../constants/picture.ts'
+import { deleteUserByIdUsingPost } from '@/api/userController.ts'
 
 // 表格头
 const columns = [
@@ -187,7 +188,7 @@ const total = ref(0)
 
 // 搜索条件
 const searchParams = reactive<API.PictureQueryRequest>({
-  current: 1,
+  page: 1,
   pageSize: 10,
   sortField: 'createTime',
   sortOrder: 'descend',
@@ -208,6 +209,7 @@ const pagination = computed(() => {
 const fetchData = async () => {
   const res = await listPictureByPageUsingPost({
     ...searchParams,
+    nullSpaceId: true,
   })
   if (res.data.data) {
     dataList.value = res.data.data.records ?? []
@@ -253,5 +255,18 @@ const handleReview = async (record: API.Picture, reviewStatus: number) => {
   }
 }
 
-const doDelete = () => {}
+// 删除数据
+const doDelete = async (id: number) => {
+  if (!id) {
+    return
+  }
+  const res = await deleteUserByIdUsingPost({ id })
+  if (res.data.code === 0) {
+    message.success('删除成功')
+    // 刷新数据
+    fetchData()
+  } else {
+    message.error('删除失败')
+  }
+}
 </script>

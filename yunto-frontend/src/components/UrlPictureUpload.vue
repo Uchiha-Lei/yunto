@@ -16,18 +16,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { uploadPictureByUrlUsingPost } from '@/api/pictureController.ts'
+import { uploadPictureUsingPost } from '@/api/pictureController.ts'
 
 // 设置为受控组件，由父组件控制
 interface Props {
   picture?: API.PictureVO
+  spaceId?: number
   onSuccess?: (newPicture: API.PictureVO) => void
 }
 
 const props = defineProps<Props>()
-
-const params = props.picture ? { id: props.picture.id } : {}
-
 const loading = ref<boolean>(false)
 const fileUrl = ref<string>()
 
@@ -37,11 +35,13 @@ const fileUrl = ref<string>()
 const handleUpload = async () => {
   loading.value = true
   try {
-    const params: API.PictureUploadRequest = { fileUrl: fileUrl.value }
+    // 上传时传递 spaceId
+    const params: API.PictureUploadRequest = props.picture ? { id: props.picture.id } : {}
     if (props.picture) {
       params.id = props.picture.id
     }
-    const res = await uploadPictureByUrlUsingPost(params)
+    params.spaceId = props.spaceId
+    const res = await uploadPictureUsingPost(params, {}, file)
     if (res.data.code === 0 && res.data.data) {
       message.success('图片上传成功')
       // 将上传成功的图片信息传递给父组件
@@ -66,5 +66,4 @@ const handleUpload = async () => {
   max-width: 100%;
   max-height: 480px;
 }
-
 </style>

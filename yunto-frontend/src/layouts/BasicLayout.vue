@@ -4,9 +4,14 @@
       <a-layout-header class="header">
         <GlobalHeader />
       </a-layout-header>
-      <a-layout-content class="content">
-        <router-view />
-      </a-layout-content>
+      <a-layout>
+        <a-layout-sider class="sider">
+          <GlobalSider />
+        </a-layout-sider>
+        <a-layout-content class="content">
+          <router-view />
+        </a-layout-content>
+      </a-layout>
       <a-layout-footer class="footer">
         <a href="#" target="_blank">智能云图库 by Uchiha-Lei</a>
       </a-layout-footer>
@@ -15,6 +20,7 @@
 </template>
 <script setup lang="ts">
 import GlobalHeader from '@/components/GlobalHeader.vue'
+import GlobalSider from '@/components/GlobalSider.vue'
 </script>
 <style scoped>
 #basicLayout {
@@ -36,6 +42,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
   position: sticky;
   top: 0;
   z-index: 100;
+  margin-bottom: 1px;
 }
 
 #basicLayout .content {
@@ -45,9 +52,17 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
   overflow-y: auto;
 }
 
+#basicLayout .sider {
+  background: #fff;
+  border-right: 0.5px solid #eee;
+}
+
+#basicLayout :deep(.ant-menu-root) {
+  border-bottom: none !important;
+  border-inline-end: none !important;
+}
+
 #basicLayout .footer {
-  background: #efefef;
-  padding: 16px;
   text-align: center;
 }
 </style>
