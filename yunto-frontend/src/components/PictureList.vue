@@ -18,14 +18,22 @@
                 loading="lazy"
               />
             </template>
-            <template #actions v-if="showOp">
+            <template v-if="showOp" #actions>
+              <a-space @click="(e) => doSearch(picture, e)">
+                <SearchOutlined />
+                搜索
+              </a-space>
               <a-space @click="(e) => doEdit(picture, e)">
-                <edit-outlined />
+                <EditOutlined />
                 编辑
               </a-space>
               <a-space @click="(e) => doDelete(picture, e)">
-                <delete-outlined />
+                <DeleteOutlined />
                 删除
+              </a-space>
+              <a-space @click="(e) => doShare(picture, e)">
+                <ShareAltOutlined />
+                分享
               </a-space>
             </template>
             <a-card-meta :title="picture.name">
@@ -44,6 +52,7 @@
         </a-list-item>
       </template>
     </a-list>
+    <ShareModal ref="shareModalRef" :link="shareLink" />
   </div>
 </template>
 
@@ -51,6 +60,14 @@
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { deletePictureUsingPost } from '@/api/pictureController.ts'
+import ShareModal from '@/components/ShareModal.vue'
+import { ref } from 'vue'
+import {
+  SearchOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons-vue'
 
 interface Props {
   dataList?: API.PictureVO[]
@@ -73,6 +90,12 @@ const doClickPicture = (picture) => {
   })
 }
 
+// 搜索
+const doSearch = (picture, e) => {
+  e.stopPropagation()
+  window.open(`/search_picture?pictureId=${picture.id}`)
+}
+
 // 编辑
 const doEdit = (picture, e) => {
   // 阻止事件冒泡
@@ -84,6 +107,20 @@ const doEdit = (picture, e) => {
       spaceId: picture.spaceId,
     },
   })
+}
+
+// 分享弹窗引用
+const shareModalRef = ref()
+// 分享链接
+const shareLink = ref<string>()
+
+// 分享
+const doShare = (picture: API.PictureVO, e: Event) => {
+  e.stopPropagation()
+  shareLink.value = `${window.location.protocol}//${window.location.host}/picture/${picture.id}`
+  if (shareModalRef.value) {
+    shareModalRef.value.openModal()
+  }
 }
 
 // 删除
