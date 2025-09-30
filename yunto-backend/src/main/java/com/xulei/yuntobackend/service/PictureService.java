@@ -2,6 +2,7 @@ package com.xulei.yuntobackend.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xulei.yuntobackend.api.aliyunai.model.CreateOutPaintingTaskResponse;
 import com.xulei.yuntobackend.model.VO.PictureVO;
 import com.xulei.yuntobackend.model.dto.picture.*;
 import com.xulei.yuntobackend.model.entity.Picture;
@@ -87,9 +88,39 @@ public interface PictureService extends IService<Picture> {
      */
     void fillReviewParams(Picture picture, User loginUser);
 
+    /**
+     * 清除图片文件的方法
+     *
+     * @param oldPicture 需要清除的图片对象
+     */
     void clearPictureFile(Picture oldPicture);
 
+    /**
+     * 检查用户对图片的访问权限
+     *
+     * @param loginUser 当前登录用户对象，包含用户ID、权限等信息
+     * @param picture   目标图片对象，包含图片ID、所有者、隐私设置等信息
+     *                  该方法用于验证当前登录用户是否有权限访问指定的图片
+     *                  权限检查可能基于用户角色、图片所有者关系、图片隐私设置等因素
+     */
     void checkPictureAuth(User loginUser, Picture picture);
 
+    /**
+     * 根据颜色搜索图片
+     *
+     * @param spaceId   空间ID，用于指定要搜索的图片空间
+     * @param picColor  图片颜色，用于筛选指定颜色的图片
+     * @param loginUser 当前登录用户，用于权限验证
+     * @return 返回符合条件的PictureVO对象列表，包含图片的详细信息
+     */
     List<PictureVO> searchPictureByColor(Long spaceId, String picColor, User loginUser);
+
+    /**
+     * 创建图片出图任务
+     *
+     * @param createPictureOutPaintingTaskRequest
+     * @param loginUser
+     * @return
+     */
+    CreateOutPaintingTaskResponse createPictureOutPaintingTask(CreatePictureOutPaintingTaskRequest createPictureOutPaintingTaskRequest, User loginUser);
 }
