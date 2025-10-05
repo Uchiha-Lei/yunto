@@ -56,5 +56,10 @@ public interface SpaceService extends IService<Space> {
      */
     QueryWrapper<Space> getQueryWrapper(SpaceQueryRequest spaceQueryRequest);
 
-
+    /**
+     * 校验编辑权限
+     * @param loginUser
+     * @param space
+     */
+    void checkSpaceAuth(User loginUser, Space space);
 }
