@@ -9,6 +9,7 @@ import com.xulei.yuntobackend.constant.UserConstant;
 import com.xulei.yuntobackend.exception.BusinessException;
 import com.xulei.yuntobackend.exception.ErrorCode;
 import com.xulei.yuntobackend.exception.ThrowUtils;
+import com.xulei.yuntobackend.manager.auth.SpaceUserAuthManager;
 import com.xulei.yuntobackend.model.VO.SpaceVO;
 import com.xulei.yuntobackend.model.dto.space.*;
 import com.xulei.yuntobackend.model.entity.Space;
@@ -37,6 +38,9 @@ public class SpaceController {
 
     @Resource
     private SpaceService spaceService;
+
+    @Resource
+    private SpaceUserAuthManager spaceUserAuthManager;
 
     /**
      * 创建空间
@@ -125,9 +129,14 @@ public class SpaceController {
         // 查询数据库
         Space space = spaceService.getById(id);
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR);
+        SpaceVO spaceVO = spaceService.getSpaceVO(space, request);
+        User loginUser = userService.getLoginUser(request);
+        List<String> permissionList = spaceUserAuthManager.getPermissionList(space, loginUser);
+        spaceVO.setPermissionList(permissionList);
         // 获取封装类
-        return ResultUtils.success(spaceService.getSpaceVO(space, request));
+        return ResultUtils.success(spaceVO);
     }
+
 
     /**
      * 分页获取空间列表（仅管理员可用）

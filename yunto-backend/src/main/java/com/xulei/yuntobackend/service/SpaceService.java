@@ -26,8 +26,21 @@ public interface SpaceService extends IService<Space> {
      */
     void validSpace(Space space, boolean add);
 
+    /**
+     * 根据空间级别填充空间
+     * 该方法用于处理空间对象，并根据其级别进行相应的填充操作
+     *
+     * @param space 需要填充的空间对象，包含空间级别和相关信息
+     */
     void fillSpaceBySpaceLevel(Space space);
 
+    /**
+     * 添加空间的方法
+     *
+     * @param spaceAddRequest 空间添加请求对象，包含需要添加的空间信息
+     * @param loginUser       当前登录用户对象，用于验证用户权限
+     * @return 返回一个long类型的值，可能表示操作结果或新创建空间的ID
+     */
     long addSpace(SpaceAddRequest spaceAddRequest, User loginUser);
 
     /**
@@ -58,8 +71,10 @@ public interface SpaceService extends IService<Space> {
 
     /**
      * 校验编辑权限
+     *
      * @param loginUser
      * @param space
      */
     void checkSpaceAuth(User loginUser, Space space);
+
 }

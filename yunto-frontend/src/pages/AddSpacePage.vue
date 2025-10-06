@@ -1,6 +1,8 @@
 <template>
   <div id="addPictureBatchPage">
-    <h2 style="margin-bottom: 16px">编辑空间</h2>
+    <h2 style="margin-bottom: 16px">
+      {{ route.query?.id ? '修改' : '创建' }}{{ SPACE_TYPE_MAP[spaceType] }}
+    </h2>
     <a-form layout="vertical" :model="formData" @finish="handleSubmit">
       <a-form-item label="空间名称" name="spaceName">
         <a-input v-model:value="formData.spaceName" placeholder="请输入空间名称" allow-clear />
@@ -34,10 +36,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { SPACE_LEVEL_ENUM, SPACE_LEVEL_OPTIONS } from '@/constants/space.ts'
+import { SPACE_LEVEL_ENUM, SPACE_LEVEL_OPTIONS, SPACE_TYPE_ENUM, SPACE_TYPE_MAP } from '@/constants/space.ts'
 import {
   addSpaceUsingPost,
   getSpaceVoByIdUsingGet,
@@ -51,6 +53,14 @@ const formData = reactive<API.SpaceAddRequest | API.SpaceUpdateRequest>({
   spaceLevel: SPACE_LEVEL_ENUM.COMMON,
 })
 const loading = ref(false)
+
+// 空间类别
+const spaceType = computed(() => {
+  if (route.query?.type) {
+    return Number(route.query.type)
+  }
+  return SPACE_TYPE_ENUM.PRIVATE
+})
 
 const router = useRouter()
 const space = ref<API.SpaceVO>()
@@ -98,11 +108,12 @@ const handleSubmit = async (values: any) => {
     // 创建
     res = await addSpaceUsingPost({
       ...formData,
+      spaceType: spaceType.value,
     })
   }
   if (res.data.code === 0 && res.data.data) {
     message.success('操作成功')
-    let path = `/space/${spaceId ?? res.data.data}`
+    const path = `/space/${spaceId ?? res.data.data}`
     router.push({
       path,
     })

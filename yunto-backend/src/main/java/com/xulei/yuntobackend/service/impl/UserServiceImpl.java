@@ -10,6 +10,7 @@ import com.xulei.yuntobackend.constant.UserConstant;
 import com.xulei.yuntobackend.exception.BusinessException;
 import com.xulei.yuntobackend.exception.ErrorCode;
 import com.xulei.yuntobackend.exception.ThrowUtils;
+import com.xulei.yuntobackend.manager.auth.StpKit;
 import com.xulei.yuntobackend.model.VO.LoginUserVO;
 import com.xulei.yuntobackend.model.VO.UserVO;
 import com.xulei.yuntobackend.model.dto.user.UserQueryRequest;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.xulei.yuntobackend.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * @author xl
@@ -116,8 +119,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info(":::user login failed, username or password can`t be matched");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或用户名密码错误");
         }
-        // 3. 返回登录用户
-        request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, user);
+        // 3. 记录用户的登录态
+        request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        // 4. 记录用户登录态到 Sa-token，便于空间鉴权时使用，注意保证该用户信息与 SpringSession 中的信息过期时间一致
+        StpKit.SPACE.login(user.getId());
+        StpKit.SPACE.getSession().set(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
     }
 
@@ -142,7 +148,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User getLoginUser(HttpServletRequest request) {
         // 判断是否已登录
-        Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
         ThrowUtils.throwIf(currentUser == null || currentUser.getId() == null, ErrorCode.NOT_LOGIN_ERROR);
         // 如果不追求性能，建议在数据库中查询一下
@@ -203,10 +209,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean userLogout(HttpServletRequest request) {
         // 判断是否已登录
-        Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         ThrowUtils.throwIf(userObj == null, ErrorCode.OPERATION_ERROR, "操作失败,用户未登录");
         // 移除登录态
-        request.getSession().removeAttribute(UserConstant.USER_LOGIN_STATE);
+        request.getSession().removeAttribute(USER_LOGIN_STATE);
         return true;
     }
 
