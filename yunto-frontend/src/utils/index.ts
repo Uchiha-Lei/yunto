@@ -33,3 +33,15 @@ export function toHexColor(input) {
   // 返回标准 #RRGGBB 格式
   return `#${hexColor}`
 }
+
+export default class PictureEditWebSocket {
+  private pictureId: number
+  private socket: WebSocket | null
+  private eventHandlers: any
+
+  constructor(pictureId: number) {
+    this.pictureId = pictureId // 当前编辑的图片 ID
+    this.socket = null // WebSocket 实例
+    this.eventHandlers = {} // 自定义事件处理器
+  }
+}
